@@ -1,88 +1,47 @@
 LineTopologyGatherer = require('../lib/line-topology-gather')
 
+fs = require 'fs'
+Seq = require 'seq'
+xml2js = require 'xml2js'
+
 exports.stations = (test) ->
   gatherer = new LineTopologyGatherer
 
-  gatherer.addPrediction
-    S:
-      '@':
-        Code: 'AAA'
-        N: 'Aaa'
-        CurTime: '00:01:01'
-      P: [
-        {
-          '@':
-            N: 'N1'
-            Num: '1'
-            TrackCode: 'TCA1'
-          T: [
-            {
-              '@':
-                LCID: 'l-1'
-                SetNo: 's-1'
-                TripNo: 't-1'
-                TrackCode: 'tc1'
-            }
-            {
-              '@':
-                LCID: 'l-2'
-                SetNo: 's-2'
-                TripNo: 't-1'
-                TrackCode: 'tc2'
-            }
-          ]
-        }
-        {
-          '@':
-            N: 'S2'
-            Num: '2'
-            TrackCode: 'TCA2'
-          T: [
-            {
-              '@':
-                LCID: 'l-2'
-                SetNo: 's-2'
-                TripNo: 't-1'
-                TrackCode: 'tc3'
-            }
-            {
-              '@':
-                LCID: 'l-3'
-                SetNo: 's-3'
-                TripNo: 't-1'
-                TrackCode: 'tc4'
-            }
-          ]
-        }
-      ]
+  gatherFile = (filename, done) ->
+    Seq()
+    .seq () ->
+      fs.readFile filename, 'ascii', this
+    .seq (xml) ->
+      parser = new xml2js.Parser
+      parser.addListener 'end', (object) =>
+        this undefined, object
+      parser.parseString xml
+    .seq (object) ->
+      gatherer.addPrediction object
 
-  gatherer.addPrediction
-    S:
-      '@':
-        Code: 'BBB'
-        N: 'Bbb'
-        CurTime: '00:01:02'
-      P: []
+      done undefined
 
-  gatherer.addPrediction
-    S:
-      '@':
-        Code: 'AAA'
-        N: 'Aaa'
-        CurTime: '00:01:03'
-      P: []
+  Seq()
+  .seq () ->
+    gatherFile 'test/data/gather-1.xml', this
+  .seq () ->
+    gatherFile 'test/data/gather-2.xml', this
+  .seq () ->
+    gatherFile 'test/data/gather-3.xml', this
+  .seq () ->
+    stations = gatherer.getStations()
+    test.strictEqual Object.keys(stations).length, 2
+    test.strictEqual stations.AAA.name, 'Aaa'
+    test.strictEqual stations.BBB.name, 'Bbb'
 
-  stations = gatherer.getStations()
-  test.strictEqual Object.keys(stations).length, 2
-  test.strictEqual stations.AAA.name, 'Aaa'
-  test.strictEqual stations.BBB.name, 'Bbb'
+    platforms = stations.AAA.platforms
+    test.strictEqual Object.keys(platforms).length, 2
+    test.strictEqual platforms['1'].trackCode, 'tc-1'
+    test.strictEqual platforms['2'].trackCode, 'tc-2'
 
-  platforms = stations.AAA.platforms
-  test.strictEqual Object.keys(platforms).length, 2
-  test.strictEqual platforms['1'].trackCode, 'TCA1'
-  test.strictEqual platforms['2'].trackCode, 'TCA2'
+    trains = gatherer.getTrains()
+    test.strictEqual Object.keys(trains).length, 3
 
-  trains = gatherer.getTrains()
-  test.strictEqual Object.keys(trains).length, 3
-
-  test.done()
+    test.done()
+  .catch (error) ->
+    console.log 'ERROR', error

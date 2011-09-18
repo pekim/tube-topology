@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ROOT xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://trackernet.lul.co.uk">
+  <WhenCreated>18 Sep 2011 00:01:02</WhenCreated>
+  <Line>X</Line>
+  <LineName>XXX Line</LineName>
+  <S Code="BBB" N="Bbb" CurTime="00:01:02">
+    <P N="N-1" Num="1" TrackCode="tc-5">
+    </P>
+    <P N="S-2" Num="2" TrackCode="tc-6">
+    </P>
+  </S>
+</ROOT>

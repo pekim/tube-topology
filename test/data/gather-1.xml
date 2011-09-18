@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ROOT xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://trackernet.lul.co.uk">
+  <WhenCreated>18 Sep 2011 00:01:01</WhenCreated>
+  <Line>X</Line>
+  <LineName>XXX Line</LineName>
+  <S Code="AAA" N="Aaa" CurTime="00:01:01">
+    <P N="N-1" Num="1" TrackCode="tc-1">
+      <T LCID="l-1" SetNo="s-1" TripNo="t-1" TrackCode="tc-2"/>
+      <T LCID="l-2" SetNo="s-2" TripNo="t-2" TrackCode="tc-3"/>
+    </P>
+    <P N="S-2" Num="2" TrackCode="tc-2">
+      <T LCID="l-2" SetNo="s-2" TripNo="t-2" TrackCode="tc-4"/>
+      <T LCID="l-3" SetNo="s-3" TripNo="t-3" TrackCode="tc-5"/>
+    </P>
+  </S>
+</ROOT>

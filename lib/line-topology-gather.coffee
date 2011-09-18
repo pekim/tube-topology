@@ -11,7 +11,8 @@ class LineTopologyGatherer
       @addStation station
 
     for platform in station.P
-      @addTrains platform.T
+      if platform.T
+        @addTrains platform.T
 
   addStation: (station) ->
     platforms = {}
