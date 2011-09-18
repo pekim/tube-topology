@@ -1,0 +1,30 @@
+{
+  "name": "Bakerloo",
+  "stations": {
+    "BST": {"name": "Baker Street"},
+    "CHX": {"name": "Charing Cross"},
+    "ELE": {"name": "Elephant and Castle"},
+    "EMB": {"name": "Embankment"},
+    "ERB": {"name": "Edgware Road"},
+    "HAW": {"name": "Harrow and Wealdstone"},
+    "HSD": {"name": "Stonebridge Park"},
+    "KGN": {"name": "Kensal Green"},
+    "KNT": {"name": "Kenton"},
+    "KPK": {"name": "Kilburn Park"},
+    "LAM": {"name": "Lambeth North"},
+    "MDV": {"name": "Maida Vale"},
+    "MYB": {"name": "Marylebone"},
+    "NWM": {"name": "North Wembley"},
+    "OXC": {"name": "Oxford Circus"},
+    "PAD": {"name": "Paddington"},
+    "PIC": {"name": "Piccadilly Circus"},
+    "QPK": {"name": "Queen's Park"},
+    "RPK": {"name": "Regent's Park"},
+    "SKT": {"name": "South Kenton"},
+    "SPK": {"name": "Becontree"},
+    "WAR": {"name": "Warwick Avenue"},
+    "WEM": {"name": "Wembley Central"},
+    "WJN": {"name": "Willesden Junction"},
+    "WLO": {"name": "Waterloo"}
+  }
+}

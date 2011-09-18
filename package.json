@@ -1,0 +1,20 @@
+{
+  "author": "Mike D Pilsbury <mike.pilsbury@gmail.com>",
+  "name": "tube-topology",
+  "description": "Topology of London tube lines, based on track codes.",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/pekim/tube-trains.git"
+  },
+  "engines": {
+    "node": ">=0.4.12"
+  },
+  "dependencies": {
+    "coffee-script": "*",
+    "nodeunit": "*",
+    "request": "2.x.x",
+    "xml2js": ">=0.1.10"
+  },
+  "devDependencies": {}
+}
