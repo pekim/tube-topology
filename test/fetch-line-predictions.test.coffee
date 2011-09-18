@@ -10,6 +10,7 @@ exports.fetch = (test) ->
   predictions = 0;
 
   fetch line.code, stationCodes, 10 * 1000, (error, stationPrediction) ->
+    #console.log stationPrediction
     test.ok(stationPrediction)
     test.strictEqual(stationPrediction.Line, line.code)
 
