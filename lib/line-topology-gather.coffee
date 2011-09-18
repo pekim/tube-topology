@@ -5,8 +5,13 @@ class LineTopologyGatherer
     @trains = {}
 
   addPrediction: (prediction) ->
-    if !@stations[prediction.S['@'].Code]
-      @addStation prediction.S
+    station = prediction.S
+
+    if !@stations[station['@'].Code]
+      @addStation station
+
+    for platform in station.P
+      @addTrains platform.T
 
   addStation: (station) ->
     platforms = {}
@@ -21,7 +26,24 @@ class LineTopologyGatherer
       name: station['@'].N
       platforms: platforms
 
+  addTrains: (trains) ->
+    for train in trains
+      trainKey = "#{train['@'].LCID}:#{train['@'].SetNo}:#{train['@'].TripNo}"
+
+      if !@trains[trainKey]
+        @addTrain trainKey, train
+  
+  addTrain: (trainKey, train) ->
+    @trains[trainKey] =
+      lcid: train['@'].LCID
+      setNumber: train['@'].SetNo
+      tripNumber: train['@'].TripNo
+      currentTrackCode: train['@'].TrackCode
+
   getStations: () ->
     @stations
+
+  getTrains: () ->
+    @trains
 
 module.exports = LineTopologyGatherer
