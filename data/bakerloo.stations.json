@@ -1,5 +1,6 @@
 {
   "name": "Bakerloo",
+  "code": "B",
   "stations": {
     "BST": {"name": "Baker Street"},
     "CHX": {"name": "Charing Cross"},
