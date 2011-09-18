@@ -8,7 +8,7 @@ module.exports = (url, callback) ->
       parser.addListener 'end', (object) ->
         callback undefined, object
 
-      # Remove UTF-16 Big-Endian BOM, which sax can't cope with.
+      # Remove UTF-16 Big-Endian BOM, which the sax parser can't cope with.
       body = body.slice 1
 
       parser.parseString body
