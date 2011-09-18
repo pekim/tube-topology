@@ -3,9 +3,7 @@ fetch = require '../lib/fetch-line-predictions'
 
 exports.fetch = (test) ->
   line = JSON.parse(fs.readFileSync 'data/bakerloo.stations.json', 'ascii')
-  stationCodes = []
-  for code, dummy of line.stations
-    stationCodes.push code
+  stationCodes = (code for code, dummy of line.stations)
 
   predictions = 0;
 
