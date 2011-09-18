@@ -1,4 +1,4 @@
-fetch = require '../lib/fetch-prediction-summary'
+fetch = require '../lib/fetch-prediction-detailed'
 
 exports.fetch = (test) ->
   line = 'V'
