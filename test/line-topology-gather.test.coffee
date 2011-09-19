@@ -44,4 +44,4 @@ exports.stations = (test) ->
 
     test.done()
   .catch (error) ->
-    console.log 'ERROR', error
+    test.ok false, error
