@@ -58,7 +58,6 @@ class LineTopologyGatherer
 
     if @paths[fromTrackCode].indexOf(toTrackCode) == -1
       !@paths[fromTrackCode].push(toTrackCode)
-      console.log "#{fromTrackCode} -> #{toTrackCode}"
 
   getStations: () ->
     @stations
