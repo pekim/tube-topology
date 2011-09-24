@@ -12,10 +12,13 @@
   },
   "dependencies": {
     "coffee-script": "*",
+    "express": "2.4.x",
+    "jade": "*",
     "nodeunit": "*",
     "request": "2.x.x",
     "seq": "0.3.x",
+    "stylus": "0.3.x",
     "xml2js": ">=0.1.10"
   },
-  "devDependencies": {}
+  "devDependencies": {
 }
