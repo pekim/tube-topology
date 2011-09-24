@@ -1,2 +1,29 @@
 h1= title
-p Welcome to #{title}
+
+h2 Stations
+- each station in gatherer.getStations()
+  h2 #{station.name}
+  p #{station.code}
+  h3 Platforms
+  - each platform in station.platforms
+    p #{platform.number} "#{platform.name}" #{platform.trackCode}
+
+h2 Paths
+- var paths = gatherer.getPaths()
+p Track sections: #{Object.keys(paths).length}
+
+- each from in Object.keys(paths)
+  - each to in paths[from]
+    p #{from} -> #{to}
+
+h2 Dot
+p  digraph graphname {
+
+- each station in gatherer.getStations()
+  - each platform in station.platforms
+    p "#{platform.trackCode}" [label="#{platform.station.name} - #{platform.number} (#{platform.trackCode})"]
+
+- each from in Object.keys(paths)
+  - each to in paths[from]
+    p "#{from}" -> "#{to}"
+p }

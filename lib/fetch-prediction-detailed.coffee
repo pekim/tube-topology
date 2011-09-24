@@ -21,7 +21,8 @@ module.exports = (lineCode, stationCode, callback) ->
       # Remove UTF-16 Big-Endian BOM, which the sax parser can't cope with.
       body = body.slice 1
 
-      parser.parseString body
+      parser.parseString body, (error, r) ->
+        console.log error, r
 
     else
       callback error

@@ -1,6 +1,7 @@
 class LineTopologyGatherer
   constructor: ->
     @stations = {}
+    @platformsByTrackCode = {}
     @paths = {}
     @trains = {}
 
@@ -17,16 +18,26 @@ class LineTopologyGatherer
 
   addStation: (station) ->
     platforms = {}
-    for platform in station.P
-      platforms[platform['@'].Num] = 
-        name: platform['@'].N
-        number: platform['@'].Num
-        trackCode: platform['@'].TrackCode
 
-    @stations[station['@'].Code] =
+    newStation =
       code: station['@'].Code
       name: station['@'].N
       platforms: platforms
+
+    @stations[newStation.code] = newStation
+
+    for platform in station.P
+      platformName = platform['@'].N
+      platformNumber = platform['@'].Num
+      platformTrackCode = platform['@'].TrackCode
+
+      platforms[platformNumber] = 
+        station: newStation
+        name: platformName
+        number: platformNumber
+        trackCode: platformTrackCode
+
+      @platformsByTrackCode[platformTrackCode] = platforms[platformNumber]
 
   processTrains: (trains, time) ->
     for newTrain in trains
@@ -62,6 +73,9 @@ class LineTopologyGatherer
 
   getStations: () ->
     @stations
+
+  getPlatformByTrackCode: (trackCode) ->
+    @platformsByTrackCode[trackCode]
 
   getTrains: () ->
     @trains

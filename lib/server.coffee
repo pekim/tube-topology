@@ -1,4 +1,7 @@
 express = require 'express'
+fs = require 'fs'
+fetch = require './fetch-line-predictions'
+LineTopologyGatherer = require './line-topology-gather'
 
 app = express.createServer()
 
@@ -16,21 +19,18 @@ app.configure 'development', ->
 app.configure 'production', ->
   app.use express.errorHandler()
 
+gatherer = new LineTopologyGatherer
+
 # Routes
 app.get '/', (req, res) ->
   res.render 'index', {
-    title: 'Express'
+    title: 'Bakerloo line'
+    gatherer: gatherer
   }
 
-fs = require 'fs'
-fetch = require './fetch-line-predictions'
-LineTopologyGatherer = require('./line-topology-gather')
-
-gatherer = new LineTopologyGatherer
 line = JSON.parse(fs.readFileSync __dirname + '/../data/bakerloo.stations.json', 'ascii')
 stationCodes = (code for code, dummy of line.stations)
 fetch line.code, stationCodes, 30 * 1000, (error, stationPrediction) ->
-  #console.log stationPrediction
   gatherer.addPrediction stationPrediction
 
   false
