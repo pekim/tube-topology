@@ -1,10 +1,11 @@
 class LineTopologyGatherer
   constructor: ->
     @stations = {}
-    @trackCodes = {}
+    @paths = {}
     @trains = {}
 
   addPrediction: (prediction) ->
+    time = Date.parse(prediction.WhenCreated)
     station = prediction.S
 
     if !@stations[station['@'].Code]
@@ -12,7 +13,7 @@ class LineTopologyGatherer
 
     for platform in station.P
       if platform.T
-        @addTrains platform.T
+        @processTrains platform.T, time
 
   addStation: (station) ->
     platforms = {}
@@ -27,24 +28,45 @@ class LineTopologyGatherer
       name: station['@'].N
       platforms: platforms
 
-  addTrains: (trains) ->
-    for train in trains
-      trainKey = "#{train['@'].LCID}:#{train['@'].SetNo}:#{train['@'].TripNo}"
+  processTrains: (trains, time) ->
+    for newTrain in trains
+      trainKey = "#{newTrain['@'].LCID}:#{newTrain['@'].SetNo}"
 
       if !@trains[trainKey]
-        @addTrain trainKey, train
+        @addTrain trainKey, newTrain, time
+      else
+        train = @trains[trainKey]
+        if time > train.time
+          newTrackCode = newTrain['@'].TrackCode
+          if newTrackCode != train.trackCode
+            @addPath train.trackCode, newTrackCode
+
+            train.time = time
+            train.trackCode = newTrackCode
   
-  addTrain: (trainKey, train) ->
+  addTrain: (trainKey, train, time) ->
     @trains[trainKey] =
+      time: time
       lcid: train['@'].LCID
       setNumber: train['@'].SetNo
       tripNumber: train['@'].TripNo
-      currentTrackCode: train['@'].TrackCode
+      trackCode: train['@'].TrackCode
+
+  addPath: (fromTrackCode, toTrackCode) ->
+    if !@paths[fromTrackCode]
+      @paths[fromTrackCode] = []
+
+    if @paths[fromTrackCode].indexOf(toTrackCode) == -1
+      !@paths[fromTrackCode].push(toTrackCode)
+      console.log "#{fromTrackCode} -> #{toTrackCode}"
 
   getStations: () ->
     @stations
 
   getTrains: () ->
     @trains
+
+  getPaths: () ->
+    @paths
 
 module.exports = LineTopologyGatherer

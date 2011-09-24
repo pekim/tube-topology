@@ -5,6 +5,8 @@
   <LineName>XXX Line</LineName>
   <S Code="BBB" N="Bbb" CurTime="00:01:02">
     <P N="N-1" Num="1" TrackCode="tc-5">
+      <T LCID="l-1" SetNo="s-1" TripNo="t-1" TrackCode="tc-2a"/>
+      <T LCID="l-2" SetNo="s-2" TripNo="t-2" TrackCode="tc-3"/>
     </P>
     <P N="S-2" Num="2" TrackCode="tc-6">
     </P>

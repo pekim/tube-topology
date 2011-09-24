@@ -30,6 +30,7 @@ exports.stations = (test) ->
     gatherFile 'test/data/gather-3.xml', this
   .seq () ->
     stations = gatherer.getStations()
+  
     test.strictEqual Object.keys(stations).length, 2
     test.strictEqual stations.AAA.name, 'Aaa'
     test.strictEqual stations.BBB.name, 'Bbb'
@@ -41,6 +42,12 @@ exports.stations = (test) ->
 
     trains = gatherer.getTrains()
     test.strictEqual Object.keys(trains).length, 3
+
+    paths = gatherer.getPaths()
+    test.strictEqual Object.keys(paths).length, 3
+    test.strictEqual paths['tc-2'][0], 'tc-2a'
+    test.strictEqual paths['tc-2a'][0], 'tc-2b'
+    test.strictEqual paths['tc-3'][0], 'tc-3b'
 
     test.done()
   .catch (error) ->
