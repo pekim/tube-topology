@@ -4,6 +4,6 @@ load gatherer data at start
 
 generate dot, and png every 10m
 
-discover stations from line prediction summary
-
 prune paths
+
+gather for all lines

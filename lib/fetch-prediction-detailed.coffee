@@ -18,8 +18,8 @@ module.exports = (lineCode, stationCode, callback) ->
       body = body.slice 1
 
       parser = new xml2js.Parser
-      parser.addListener 'end', (object) ->
-        callback undefined, object
+      parser.addListener 'end', (prediction) ->
+        callback undefined, prediction
       parser.addListener 'error', (error) ->
         console.log 'Parse XML error', error, body
         callback error
@@ -27,4 +27,5 @@ module.exports = (lineCode, stationCode, callback) ->
       parser.parseString body
 
     else
+      console.log "Failed to get line summary: #{response.statusCode}, #{error}"
       callback error
