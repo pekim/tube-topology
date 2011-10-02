@@ -92,6 +92,12 @@ class LineTopologyGatherer
       console.log "#{fromTrackCode} -> #{toTrackCode}"
       !@paths[fromTrackCode].push(toTrackCode)
 
+  getLineCode: () ->
+    @lineCode
+
+  getLineName: () ->
+    @lineName
+
   getStations: () ->
     @stations
 

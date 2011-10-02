@@ -23,7 +23,7 @@ gatherer = new LineTopologyGatherer 'B', 'Bakerloo'
 # Routes
 app.get '/', (req, res) ->
   res.render 'index', {
-    title: 'Bakerloo line'
+    title: "#{gatherer.getLineName()} line"
     gatherer: gatherer
   }
 
