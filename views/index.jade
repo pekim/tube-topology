@@ -2,9 +2,9 @@ h1= title
 
 h2 Stations
 - each station in gatherer.getStations()
-  h2 #{station.name}
+  h3 #{station.name}
   p #{station.code}
-  h3 Platforms
+  h4 Platforms
   - each platform in station.platforms
     p #{platform.number} "#{platform.name}" #{platform.trackCode}
 
