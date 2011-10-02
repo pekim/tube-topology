@@ -27,11 +27,5 @@ app.get '/', (req, res) ->
     gatherer: gatherer
   }
 
-#fetch 'B', 30 * 1000, (error, stationPrediction) ->
-#  if !error
-#    gatherer.addPrediction stationPrediction
-#
-#  false
-
 app.listen 3000
 console.log "Express server listening on port %d in %s mode", app.address().port, app.settings.env
