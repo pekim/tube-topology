@@ -1,9 +1,30 @@
+require 'dojo-node'
+
+fetch = require './fetch-line-predictions'
+fs = require 'fs'
+jsonRef = dojo.require 'dojox.json.ref'
+
 class LineTopologyGatherer
-  constructor: ->
+  constructor: (@lineCode, @lineName) ->
     @stations = {}
     @platformsByTrackCode = {}
     @paths = {}
     @trains = {}
+
+    fetch @lineCode, 30 * 1000, (error, stationPrediction) =>
+      if !error
+        @addPrediction stationPrediction
+
+      false
+
+    setInterval =>
+      json = jsonRef.toJson @, true
+
+      fs.writeFile "persist/#{lineCode}", json, (error) ->
+        if error
+          console.log "Error writing JSON representation of LineTopologyGatherer: #{error}"
+    , 30 * 1000
+
 
   addPrediction: (prediction) ->
     time = Date.parse(prediction.WhenCreated)

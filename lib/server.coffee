@@ -1,6 +1,5 @@
 express = require 'express'
-fs = require 'fs'
-fetch = require './fetch-line-predictions'
+#fetch = require './fetch-line-predictions'
 LineTopologyGatherer = require './line-topology-gather'
 
 app = express.createServer()
@@ -19,7 +18,7 @@ app.configure 'development', ->
 app.configure 'production', ->
   app.use express.errorHandler()
 
-gatherer = new LineTopologyGatherer
+gatherer = new LineTopologyGatherer 'B', 'Bakerloo'
 
 # Routes
 app.get '/', (req, res) ->
@@ -28,13 +27,11 @@ app.get '/', (req, res) ->
     gatherer: gatherer
   }
 
-#line = JSON.parse(fs.readFileSync __dirname + '/../data/bakerloo.stations.json', 'ascii')
-#stationCodes = (code for code, dummy of line.stations)
-fetch 'B', 30 * 1000, (error, stationPrediction) ->
-  if !error
-    gatherer.addPrediction stationPrediction
-
-  false
+#fetch 'B', 30 * 1000, (error, stationPrediction) ->
+#  if !error
+#    gatherer.addPrediction stationPrediction
+#
+#  false
 
 app.listen 3000
 console.log "Express server listening on port %d in %s mode", app.address().port, app.settings.env

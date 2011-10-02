@@ -2,3 +2,4 @@
 node_modules/
 public/stylesheets/*.css
 *.sublime-project
+persist/
