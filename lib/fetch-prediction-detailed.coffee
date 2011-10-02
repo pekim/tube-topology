@@ -14,15 +14,17 @@ module.exports = (lineCode, stationCode, callback) ->
 
   request url, (error, response, body) ->
     if !error and response.statusCode == 200
-      parser = new xml2js.Parser
-      parser.addListener 'end', (object) ->
-        callback undefined, object
-
       # Remove UTF-16 Big-Endian BOM, which the sax parser can't cope with.
       body = body.slice 1
 
-      parser.parseString body, (error, r) ->
-        console.log error, r
+      parser = new xml2js.Parser
+      parser.addListener 'end', (object) ->
+        callback undefined, object
+      parser.addListener 'error', (error) ->
+        console.log 'Parse XML error', error, body
+        callback error
+
+      parser.parseString body
 
     else
       callback error

@@ -31,7 +31,8 @@ app.get '/', (req, res) ->
 line = JSON.parse(fs.readFileSync __dirname + '/../data/bakerloo.stations.json', 'ascii')
 stationCodes = (code for code, dummy of line.stations)
 fetch line.code, stationCodes, 30 * 1000, (error, stationPrediction) ->
-  gatherer.addPrediction stationPrediction
+  if !error
+    gatherer.addPrediction stationPrediction
 
   false
 
