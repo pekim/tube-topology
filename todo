@@ -1,7 +1,3 @@
-persists gatherer data every 60s
-
-load gatherer data at start
-
 generate dot, and png every 10m
 
 prune paths

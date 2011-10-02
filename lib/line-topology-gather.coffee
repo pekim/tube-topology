@@ -6,25 +6,42 @@ jsonRef = dojo.require 'dojox.json.ref'
 
 class LineTopologyGatherer
   constructor: (@lineCode, @lineName) ->
+    @persistentFilename = "persist/#{lineCode}"
     @stations = {}
     @platformsByTrackCode = {}
     @paths = {}
     @trains = {}
 
+    @load()
+    setInterval @save, 30 * 1000
+
+  load: =>
+    fs.readFile @persistentFilename, 'utf8', (error, data) =>
+      if !error
+        loadedGatherer = jsonRef.fromJson data
+        
+        @stations = loadedGatherer.stations
+        @platformsByTrackCode = loadedGatherer.platformsByTrackCode
+        @paths = loadedGatherer.paths
+        @trains = loadedGatherer.trains
+    
+        @startFetching()
+      else
+        console.log "Error reading JSON representation of LineTopologyGatherer: #{error}"
+
+  save: =>
+    json = jsonRef.toJson @, true
+
+    fs.writeFile @persistentFilename, json, 'utf8', (error) ->
+      if error
+        console.log "Error writing JSON representation of LineTopologyGatherer: #{error}"
+
+  startFetching: ->
     fetch @lineCode, 30 * 1000, (error, stationPrediction) =>
       if !error
         @addPrediction stationPrediction
 
       false
-
-    setInterval =>
-      json = jsonRef.toJson @, true
-
-      fs.writeFile "persist/#{lineCode}", json, (error) ->
-        if error
-          console.log "Error writing JSON representation of LineTopologyGatherer: #{error}"
-    , 30 * 1000
-
 
   addPrediction: (prediction) ->
     time = Date.parse(prediction.WhenCreated)
